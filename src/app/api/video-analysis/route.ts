@@ -1,19 +1,23 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+
 import { NextRequest, NextResponse } from "next/server";
+import { isValidYouTubeUrl } from "@/utils/validation";
 
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const body = await request.json();
 
-    // TODO: Add input validation here
-    // Example: validate required fields like video file, analysis type, etc.
-    if (!body) {
+    // Validate input
+    if (!body || !body.videoUrl || !isValidYouTubeUrl(body.videoUrl)) {
       return NextResponse.json(
-        { error: "Request body is required" },
+        { error: "A valid YouTube video URL is required" },
         { status: 400 }
       );
     }
 
+    console.log('Backend Fetch:', body);
     // TODO: Add video analysis logic here
     // This could include:
     // - File upload handling
