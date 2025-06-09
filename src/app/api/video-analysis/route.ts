@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+import * as dotenv from 'dotenv'
 
 import { NextRequest, NextResponse } from "next/server";
 import { isValidYouTubeUrl } from "@/utils/validation";
 
+dotenv.config();
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
@@ -18,6 +19,8 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Backend Fetch:', body);
+    const videoUrl = body.videoUrl;
+
     // TODO: Add video analysis logic here
     // This could include:
     // - File upload handling
@@ -26,12 +29,18 @@ export async function POST(request: NextRequest) {
     // - Database operations
 
     // Placeholder response
-    const result = {
-      message: "Video analysis request received",
-      analysisId: `analysis_${Date.now()}`,
-      status: "processing",
-    };
-
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const result = await model.generateContent([
+      "Please summarize the video in 3 sentences.",
+      {
+        fileData: {
+          fileUri: videoUrl,
+          mimeType: "video/mp4",
+        },
+      },
+    ]);
+    console.log(result.response.text());
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error("Video analysis error:", error);

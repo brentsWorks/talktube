@@ -8,7 +8,7 @@ export default async function Home() {
         <div className="flex flex-col items-center justify-center space-y-8 text-center">
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              TalkTube - Multimodal Video Analysis with YouTube's API
+              TalkTube - Multimodal Video Analysis with YouTube API
             </h1>
             <p className="mt-4 text-lg text-zinc-400">
               Analyze YouTube videos with AI. Simply paste a YouTube link below
