@@ -18,9 +18,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Backend Fetch:', body);
     const videoUrl = body.videoUrl;
-
     // TODO: Add video analysis logic here
     // This could include:
     // - File upload handling
@@ -30,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     // Placeholder response
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent([
       "Please summarize the video in 3 sentences.",
       {
@@ -41,10 +39,9 @@ export async function POST(request: NextRequest) {
       },
     ]);
     console.log(result.response.text());
-    return NextResponse.json(result, { status: 200 });
+    return NextResponse.json(result.response.text(), { status: 200 });
   } catch (error) {
     console.error("Video analysis error:", error);
-
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
