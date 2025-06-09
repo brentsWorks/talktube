@@ -1,10 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import * as dotenv from 'dotenv'
-
 import { NextRequest, NextResponse } from "next/server";
 import { isValidYouTubeUrl } from "@/utils/validation";
 
-dotenv.config();
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
