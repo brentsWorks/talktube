@@ -6,7 +6,7 @@ import { isValidYouTubeUrl } from "../utils/validation";
 export function YouTubeInput() {
   const [videoUrl, setVideoUrl] = useState("");
   const [touched, setTouched] = useState(false);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<string | { error?: string; result?: string }>("");
   const [loading, setLoading] = useState(false);
   const isValid = isValidYouTubeUrl(videoUrl);
   const showError = touched && videoUrl && !isValid;
@@ -86,7 +86,13 @@ export function YouTubeInput() {
         {content && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold text-zinc-300 mb-2">Video Analysis</h3>
-            <p className="text-zinc-300">{content}</p>
+            <p className="text-zinc-300">
+              {typeof content === "object"
+                ? content.error
+                  ? <span className="text-red-500">{content.error}</span>
+                  : content.result
+                : content}
+            </p>
           </div>
         )}
       </div>
